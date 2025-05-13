@@ -1,43 +1,54 @@
 <template>
-  <div id="cadastro">
-    <h1>Cadastro de Usuário</h1>
+  <body>
+    <div id="cadastro-container">
+      <form @submit.prevent="cadastrarUsuario">
+        <div id="container">
+          <div id="titulo">
+            <h1>Gestão de Filmes</h1>
+          </div>
 
-    <p>
-      <router-link :to="{ name: 'login' }">Já tem uma conta? Faça login</router-link>
-    </p>
+          <div class="cadastro-form">
+            <h2>Cadastro</h2>
 
-    <form v-on:submit.prevent="cadastrarUsuario">
-      <div class="form-group">
-        <label for="username">Usuário</label>
-        <input
-          type="text"
-          id="username"
-          class="form-control"
-          v-model="usuario.username"
-          required
-        />
-      </div>
+            <div class="caixa">
+              <div class="usuario">
+                <input
+                  type="text"
+                  placeholder="Usuário"
+                  v-model="usuario.username"
+                  required
+                />
+              </div>
 
-      <div class="form-group">
-        <label for="password">Senha</label>
-        <input
-          type="password"
-          id="password"
-          class="form-control"
-          v-model="usuario.password"
-          required
-        />
-      </div>
+              <div class="senha">
+                <input
+                  type="password"
+                  placeholder="Senha"
+                  v-model="usuario.password"
+                  required
+                />
+              </div>
 
-      <div class="form-group">
-        <button class="btn btn-primary">Cadastrar</button>
-      </div>
-    </form>
-  </div>
+              <div class="entrar">
+                <input type="submit" id="login-btn" value="Cadastrar" />
+              </div>
+
+              <div id="cadastro-link">
+                <p>
+                  <router-link :to="{ name: 'login' }">
+                    Já tem uma conta? Faça login
+                  </router-link>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </body>
 </template>
 
 <script>
-import '../assets/cadastro.css';
 
 export default {
   data() {
@@ -46,7 +57,7 @@ export default {
         username: '',
         password: ''
       }
-    }
+    };
   },
   methods: {
     cadastrarUsuario() {
@@ -58,14 +69,14 @@ export default {
         })
         .then(
           (response) => {
-            alert(response.body.mensagem)
-            this.$router.push({ name: 'login' }) // Redireciona para a página de login
+            alert(response.body.mensagem);
+            this.$router.push({ name: 'login' }); // Redireciona para a página de login
           },
           (error) => {
-            alert(error.body.mensagem)
+            alert((error.body && error.body.mensagem) || 'Erro ao cadastrar');
           }
-        )
+        );
     }
   }
-}
+};
 </script>

@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import VueResource from 'vue-resource'
-// import HelloWorld from '@/components/HelloWorld'
 import Create from '../components/Create.vue'
 import Update from '../components/Update.vue'
 import List from '../components/List.vue'
 import Delete from '../components/Delete.vue'
 import Cadastro from '@/components/Cadastro.vue'
+import Login from '@/components/Login.vue'
 
 Vue.use(Router)
 Vue.use(VueResource)
@@ -14,11 +14,6 @@ Vue.use(VueResource)
 export default new Router({
   mode: 'history',
   routes: [
-    // {
-    //   path: '/',
-    //   name: 'HelloWorld',
-    //   component: HelloWorld
-    // },
     {
       path: '/create',
       name: 'create',
@@ -45,8 +40,13 @@ export default new Router({
       component: Cadastro
     },
     {
+      path: '/login',
+      name: 'login',
+      component: Login
+    },
+    {
       path: '/',
-      component: List
+      redirect: '/login' // Redireciona a rota padrão para a tela de login
     }
   ]
 })

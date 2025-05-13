@@ -1,76 +1,120 @@
 <template>
-  <div id="create-midia">
-    <h1>Cadastrar Mídia</h1>
+  <body>
+    <div id="create-container">
+      <form @submit.prevent="addMidia">
+        <div id="container">
+          <div id="titulo">
+            <h1>Gestão de Filmes</h1>
+          </div>
 
-    <p>
-      <router-link :to="{ name: 'list' }">Voltar para a lista de mídias</router-link>
-    </p>
-    <form v-on:submit.prevent="addMidia">
-      <div class="form-group">
-        <label>Título</label>
-        <input type="text" class="form-control" v-model="midia.titulo" required />
-      </div>
+          <div class="create-form">
+            <h2>Cadastrar Mídia</h2>
 
-      <div class="form-group">
-        <label>Tipo</label>
-        <select class="form-control" v-model="midia.tipo" required>
-          <option value="Filme">Filme</option>
-          <option value="Série">Série</option>
-        </select>
-      </div>
+            <div class="create-caixa">
+              <div class="titulo">
+                <input
+                  type="text"
+                  placeholder="Título"
+                  v-model="midia.titulo"
+                  required
+                />
+              </div>
 
-      <div class="form-group">
-        <label>Gênero</label>
-        <input type="text" class="form-control" v-model="midia.genero" required />
-      </div>
+              <div class="tipo">
+                <select v-model="midia.tipo" required>
+                  <option value="" disabled selected>Selecione o tipo</option>
+                  <option value="Filme">Filme</option>
+                  <option value="Série">Série</option>
+                </select>
+              </div>
 
-      <div class="form-group">
-        <label>Ano</label>
-        <input type="number" class="form-control" v-model="midia.ano" required />
-      </div>
+              <div class="genero">
+                <input
+                  type="text"
+                  placeholder="Gênero"
+                  v-model="midia.genero"
+                  required
+                />
+              </div>
 
-      <div class="form-group">
-        <label>Descrição</label>
-        <textarea class="form-control" v-model="midia.descricao" required></textarea>
-      </div>
+              <div class="ano">
+                <input
+                  type="number"
+                  placeholder="Ano"
+                  v-model="midia.ano"
+                  required
+                />
+              </div>
 
-      <div class="form-group">
-        <label>Avaliação</label>
-        <input type="number" step="0.1" class="form-control" v-model="midia.avaliacao" required />
-      </div>
+              <div class="descricao">
+                <textarea
+                  placeholder="Descrição"
+                  v-model="midia.descricao"
+                  required
+                ></textarea>
+              </div>
 
-      <div class="form-group">
-        <button class="btn btn-primary">Cadastrar</button>
-      </div>
-    </form>
-  </div>
+              <div class="avaliacao">
+                <input
+                  type="number"
+                  step="0.1"
+                  placeholder="Avaliação"
+                  v-model="midia.avaliacao"
+                  required
+                />
+              </div>
+
+              <div class="entrar">
+                <input type="submit" id="login-btn" value="Cadastrar" />
+              </div>
+
+              <div id="cadastro-link">
+                <p>
+                  <router-link :to="{ name: 'list' }">
+                    Voltar para a lista de mídias
+                  </router-link>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </body>
 </template>
 
 <script>
-import '../assets/create.css';
+import '../assets/global.css';
 
 export default {
   data() {
     return {
-      midia: {}
+      midia: {
+        titulo: '',
+        tipo: '',
+        genero: '',
+        ano: '',
+        descricao: '',
+        avaliacao: ''
+      }
     };
   },
   methods: {
-    addMidia: function () {
+    addMidia() {
       this.$http
-        .post("http://localhost:5000/create", this.midia, {
+        .post('http://localhost:5000/create', this.midia, {
           headers: {
-            "Content-Type": "application/json"
+            'Content-Type': 'application/json'
           }
         })
         .then(
           (response) => {
             this.midia = {};
-            alert(response.body["mensagem"]);
-            this.$router.push("list");
+            alert(response.body.mensagem);
+            this.$router.push({ name: 'list' });
           },
-          (response) => {
-            alert(response.body["mensagem"]);
+          (error) => {
+            alert((error.body && error.body.mensagem) || 'Erro ao cadastrar mídia');
           }
         );
     }
