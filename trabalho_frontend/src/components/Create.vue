@@ -47,6 +47,8 @@
 </template>
 
 <script>
+import '../assets/create.css';
+
 export default {
   data() {
     return {
