@@ -8,35 +8,45 @@ from bson.objectid import ObjectId
 @app.route('/')
 @app.route('/index')
 def index():
-    return flask.jsonify(json.loads(json_util.dumps(db.usuario.find({}).sort("_id", 1))))
+    return flask.jsonify(json.loads(json_util.dumps(db.midias.find({}).sort("_id", 1))))
 
 @app.route('/create', methods=['POST'])
 def create():
     json_data = request.json
     if json_data is not None:
-        db.usuario.insert_one(json_data)
-        return jsonify(mensagem='usuario criado')
+        db.midias.insert_one(json_data)
+        return jsonify(mensagem='Mídia criada com sucesso!')
     else:
-        return jsonify(mensagem='usuario não criado')
+        return jsonify(mensagem='Erro ao criar mídia.')
 
-@app.route("/getid/<string:userId>")
-def getid(userId):
-    usuario = db.usuario.find_one({"_id": ObjectId(userId)})
-    return flask.jsonify(json.loads(json_util.dumps(usuario)))
+@app.route("/getid/<string:midiaId>")
+def getid(midiaId):
+    midia = db.midias.find_one({"_id": ObjectId(midiaId)})
+    return flask.jsonify(json.loads(json_util.dumps(midia)))
 
-@app.route("/delete/<string:userId>")
-def delete(userId):
-    result = db.usuario.delete_one({"_id": ObjectId(userId)})
+@app.route("/delete/<string:midiaId>")
+def delete(midiaId):
+    result = db.midias.delete_one({"_id": ObjectId(midiaId)})
     if(result.deleted_count > 0):
-        return jsonify(mensagem='usuario removido')
+        return jsonify(mensagem='Mídia removida com sucesso!')
     else:
-        return jsonify(mensagem='usuario não removido')
+        return jsonify(mensagem='Erro ao remover mídia.')
 
 @app.route('/update', methods=['POST'])
 def update():
     json_data = request.json
-    if json_data is not None and db.usuario.find_one({"_id": ObjectId(json_data["id"])}) is not None:
-        db.usuario.update_one({'_id': ObjectId(json_data["id"])}, {"$set": {'nome': json_data["nome"], 'email': json_data["email"],'idade': json_data["idade"]}})
-        return jsonify(mensagem='usuario atualizado')
+    if json_data is not None and db.midias.find_one({"_id": ObjectId(json_data["id"])}) is not None:
+        db.midias.update_one(
+            {'_id': ObjectId(json_data["id"])},
+            {"$set": {
+                'titulo': json_data["titulo"],
+                'tipo': json_data["tipo"],
+                'genero': json_data["genero"],
+                'ano': json_data["ano"],
+                'descricao': json_data["descricao"],
+                'avaliacao': json_data["avaliacao"]
+            }}
+        )
+        return jsonify(mensagem='Mídia atualizada com sucesso!')
     else:
-        return jsonify(mensagem='usuario não atualizado')
+        return jsonify(mensagem='Erro ao atualizar mídia.')
