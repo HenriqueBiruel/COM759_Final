@@ -6,6 +6,7 @@ import Create from '../components/Create.vue'
 import Update from '../components/Update.vue'
 import List from '../components/List.vue'
 import Delete from '../components/Delete.vue'
+import Cadastro from '@/components/Cadastro.vue'
 
 Vue.use(Router)
 Vue.use(VueResource)
@@ -37,6 +38,11 @@ export default new Router({
       path: '/delete',
       name: 'delete',
       component: Delete
+    },
+    {
+      path: '/cadastro',
+      name: 'cadastro',
+      component: Cadastro
     },
     {
       path: '/',

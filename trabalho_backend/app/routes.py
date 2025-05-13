@@ -4,6 +4,8 @@ from bson import json_util
 from app import app
 from app import db
 from bson.objectid import ObjectId
+from werkzeug.security import generate_password_hash
+from werkzeug.security import check_password_hash
 
 @app.route('/')
 @app.route('/index')
@@ -50,3 +52,35 @@ def update():
         return jsonify(mensagem='Mídia atualizada com sucesso!')
     else:
         return jsonify(mensagem='Erro ao atualizar mídia.')
+
+@app.route('/cadastro', methods=['POST'])
+def cadastro_user():
+    data = request.get_json()
+    if not data.get('username') or not data.get('password'):
+        return jsonify({'mensagem': 'Usuário e senha são obrigatórios!'}), 400
+
+    # Verifica se o usuário já existe
+    if db.usuario.find_one({'username': data['username']}):  # Usando a coleção 'usuario'
+        return jsonify({'mensagem': 'Usuário já existe!'}), 400
+
+    # Cria o usuário com senha criptografada
+    hashed_password = generate_password_hash(data['password'])
+    db.usuario.insert_one({
+        'username': data['username'],
+        'password': hashed_password
+    })
+
+    return jsonify({'mensagem': 'Usuário cadastrado com sucesso!'}), 201
+
+@app.route('/login', methods=['POST'])
+def login_user():
+    data = request.get_json()
+    if not data.get('username') or not data.get('password'):
+        return jsonify({'mensagem': 'Usuário e senha são obrigatórios!'}), 400
+
+    # Busca o usuário na coleção 'usuario'
+    user = db.usuario.find_one({'username': data['username']})
+    if not user or not check_password_hash(user['password'], data['password']):
+        return jsonify({'mensagem': 'Credenciais inválidas!'}), 401
+
+    return jsonify({'mensagem': 'Login realizado com sucesso!'}), 200
