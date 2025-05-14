@@ -64,7 +64,7 @@ export default {
     .then(
       (response) => {
         alert(response.body.mensagem);
-        this.$router.push({ name: 'create' });
+        this.$router.push({ name: 'list' });
       },
       (error) => {
         alert((error.body && error.body.mensagem) || 'Erro ao fazer login');

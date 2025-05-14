@@ -29,6 +29,15 @@
                 />
               </div>
 
+              <div class="repetir-senha">
+                <input
+                  type="password"
+                  placeholder="Repita a senha"
+                  v-model="repetirSenha"
+                  required
+                />
+              </div>
+
               <div class="entrar">
                 <input type="submit" id="login-btn" value="Cadastrar" />
               </div>
@@ -49,18 +58,25 @@
 </template>
 
 <script>
-
 export default {
   data() {
     return {
       usuario: {
         username: '',
         password: ''
-      }
+      },
+      repetirSenha: '' // Campo adicional para repetir a senha
     };
   },
   methods: {
     cadastrarUsuario() {
+      // Verifica se as senhas são iguais
+      if (this.usuario.password !== this.repetirSenha) {
+        alert('As senhas não coincidem!');
+        return;
+      }
+
+      // Faz a requisição para o backend
       this.$http
         .post('http://localhost:5000/cadastro', this.usuario, {
           headers: {

@@ -1,101 +1,153 @@
 <template>
-  <div id="delete-usuario">
-    <h1>Delete Usuário</h1>
+  <body>
+    <div id="delete-container">
+      <form @submit.prevent="deleteMidia">
+        <div id="container">
+          <div id="titulo">
+            <h1>Deletar Mídia</h1>
+          </div>
 
-    <p>
-      <router-link :to="{ name: 'list' }">Voltar para a lista de usuários</router-link>
-    </p>
-    <form v-on:submit.prevent="deleteUsuario">
-      <div class="form-group">
-        <label for="usuario_id">ID</label>
-        <input
-          type="text"
-          class="form-control"
-          disabled
-          v-model="usuario.id"
-          id="usuario_id"
-        />
-      </div>
+          <div class="delete-form">
+            <div class="caixa">
+              <div class="form-group">
+                <label for="midia_id">ID</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  disabled
+                  v-model="midia.id"
+                  id="midia_id"
+                />
+              </div>
 
-      <div class="form-group">
-        <label for="usuario_nome">Nome</label>
-        <input
-          type="text"
-          class="form-control"
-          v-model="usuario.nome"
-          id="usuario_nome"
-          disabled
-        />
-      </div>
+              <div class="form-group">
+                <label for="midia_titulo">Título</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="midia.titulo"
+                  id="midia_titulo"
+                  disabled
+                />
+              </div>
 
-      <div class="form-group">
-        <label for="usuario_email">E-mail</label>
-        <input
-          type="email"
-          class="form-control"
-          v-model="usuario.email"
-          id="usuario_email"
-          disabled
-        />
-      </div>
+              <div class="form-group">
+                <label for="midia_tipo">Tipo</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="midia.tipo"
+                  id="midia_tipo"
+                  disabled
+                />
+              </div>
 
-      <div class="form-group">
-        <label for="usuario_idade">Idade</label>
-        <input
-          type="number"
-          class="form-control"
-          v-model="usuario.idade"
-          id="usuario_idade"
-          disabled
-        />
-      </div>
+              <div class="form-group">
+                <label for="midia_genero">Gênero</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="midia.genero"
+                  id="midia_genero"
+                  disabled
+                />
+              </div>
 
-      <div class="form-group">
-        <button class="btn btn-danger">Delete</button>
-      </div>
-    </form>
-  </div>
+              <div class="form-group">
+                <label for="midia_ano">Ano</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  v-model="midia.ano"
+                  id="midia_ano"
+                  disabled
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="midia_avaliacao">Avaliação</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  v-model="midia.avaliacao"
+                  id="midia_avaliacao"
+                  disabled
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="midia_descricao">Descrição</label>
+                <textarea
+                  class="form-control"
+                  v-model="midia.descricao"
+                  id="midia_descricao"
+                  disabled
+                ></textarea>
+              </div>
+
+              <div class="form-group">
+                <button class="btn btn-danger">Deletar</button>
+              </div>
+
+              <div id="voltar-link">
+                <p>
+                  <router-link :to="{ name: 'list' }">
+                    Voltar para a lista de mídias
+                  </router-link>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </body>
 </template>
 
 <script>
+import '../assets/update.css';
+
 export default {
   data() {
     return {
-      usuario: {}
-    }
+      midia: {}
+    };
   },
   created() {
-    this.getUsuarioData()
+    this.getMidiaData();
   },
   methods: {
-    getUsuarioData() {
+    getMidiaData() {
       this.$http
         .get(`http://localhost:5000/getid/${this.$route.params.id}`)
         .then(
           (response) => {
-            this.usuario.id = this.$route.params.id
-            this.usuario.nome = response.body.nome
-            this.usuario.email = response.body.email
-            this.usuario.idade = response.body.idade
-            this.$forceUpdate()
+            this.midia.id = this.$route.params.id;
+            this.midia.titulo = response.body.titulo;
+            this.midia.tipo = response.body.tipo;
+            this.midia.genero = response.body.genero;
+            this.midia.ano = response.body.ano;
+            this.midia.avaliacao = response.body.avaliacao;
+            this.midia.descricao = response.body.descricao;
+            this.$forceUpdate();
           },
           () => {
-            alert('Erro ao buscar dados do usuário.')
+            alert("Erro ao buscar dados da mídia.");
           }
-        )
+        );
     },
-    deleteUsuario() {
-      this.$http.get(`http://localhost:5000/delete/${this.usuario.id}`).then(
+    deleteMidia() {
+      this.$http.get(`http://localhost:5000/delete/${this.midia.id}`).then(
         (response) => {
-          this.usuario = {}
-          alert(response.body.mensagem)
-          this.$router.push('list')
+          this.midia = {};
+          alert(response.body.mensagem);
+          this.$router.push("list");
         },
         (response) => {
-          alert(response.body.mensagem)
+          alert(response.body.mensagem);
         }
-      )
+      );
     }
   }
-}
+};
 </script>

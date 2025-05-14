@@ -4,9 +4,9 @@ from bson import json_util
 from app import app
 from app import db
 from bson.objectid import ObjectId
-from werkzeug.security import generate_password_hash
-from werkzeug.security import check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 
+# Rotas para mídias
 @app.route('/')
 @app.route('/list')
 def getlist():
@@ -53,6 +53,7 @@ def update():
     else:
         return jsonify(mensagem='Erro ao atualizar mídia.')
 
+# Rotas para usuários
 @app.route('/cadastro', methods=['POST'])
 def cadastro_user():
     data = request.get_json()
@@ -84,3 +85,44 @@ def login_user():
         return jsonify({'mensagem': 'Credenciais inválidas!'}), 401
 
     return jsonify({'mensagem': 'Login realizado com sucesso!'}), 200
+
+@app.route('/listusers')
+def list_users():
+    """Lista todos os usuários"""
+    users = db.usuario.find({})
+    return flask.jsonify(json.loads(json_util.dumps(users)))
+
+@app.route('/getuser/<string:userId>')
+def get_user(userId):
+    """Obtém um usuário pelo ID"""
+    user = db.usuario.find_one({"_id": ObjectId(userId)})
+    if user:
+        return flask.jsonify(json.loads(json_util.dumps(user)))
+    else:
+        return jsonify(mensagem='Usuário não encontrado.'), 404
+
+@app.route('/updateuser', methods=['POST'])
+def update_user():
+    """Atualiza os dados de um usuário"""
+    json_data = request.json
+    if json_data is not None and db.usuario.find_one({"_id": ObjectId(json_data["id"])}) is not None:
+        db.usuario.update_one(
+            {'_id': ObjectId(json_data["id"])},
+            {"$set": {
+                'username': json_data["username"],
+                'email': json_data["email"],
+                'password': generate_password_hash(json_data["password"])
+            }}
+        )
+        return jsonify(mensagem='Usuário atualizado com sucesso!')
+    else:
+        return jsonify(mensagem='Erro ao atualizar usuário.')
+
+@app.route('/deleteuser/<string:userId>')
+def delete_user(userId):
+    """Deleta um usuário pelo ID"""
+    result = db.usuario.delete_one({"_id": ObjectId(userId)})
+    if result.deleted_count > 0:
+        return jsonify(mensagem='Usuário removido com sucesso!')
+    else:
+        return jsonify(mensagem='Erro ao remover usuário.')

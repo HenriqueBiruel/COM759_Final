@@ -1,32 +1,46 @@
-/* Contêiner principal da página de atualização */
-#update-container {
+/* Contêiner principal da página de atualização e deleção */
+#update-container,
+#delete-container {
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100vh;
+  align-items: flex-start; /* Alinha o conteúdo ao topo */
+  min-height: 100vh; /* Garante que o contêiner ocupe pelo menos a altura da tela */
   background-color: white;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px; /* Adiciona espaçamento interno */
+  box-sizing: border-box; /* Garante que padding seja incluído no tamanho total */
+  overflow-y: auto; /* Adiciona barra de rolagem vertical, se necessário */
 }
 
-/* Contêiner interno específico para a página de atualização */
-#update-container #container {
+/* Contêiner interno específico para as páginas de atualização e deleção */
+#update-container #container,
+#delete-container #container {
   background-color: white;
   padding: 30px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-  width: 90%;
-  max-width: 600px; /* Limita a largura máxima */
-  overflow-x: auto; /* Adiciona barra de rolagem horizontal, se necessário */
+  width: 100%;           /* Ocupa toda a largura possível */
+  max-width: 1200px;      /* Define a largura máxima maior */
+  min-width: 700px;      /* Define uma largura mínima */
+  border-radius: 10px;
+  box-sizing: border-box;
 }
 
 /* Título principal */
-#update-container #titulo h1 {
+#update-container #titulo h1,
+#delete-container #titulo h1 {
   text-align: center;
   margin-bottom: 20px;
   color: black;
+  font-size: 24px;
+  font-weight: bold;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
 }
 
-/* Formulário de atualização */
-#update-container .update-form .caixa {
+/* Formulários de atualização e deleção */
+#update-container .update-form .caixa,
+#delete-container .delete-form .caixa {
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -35,26 +49,52 @@
 /* Estilo dos campos de entrada */
 #update-container .form-group input,
 #update-container .form-group select,
-#update-container .form-group textarea {
+#update-container .form-group textarea,
+#delete-container .form-group input,
+#delete-container .form-group select,
+#delete-container .form-group textarea {
   width: 100%;
   padding: 12px;
-  border: 1px solid black;
+  border: 1px solid #ccc;
   border-radius: 5px;
-  font-size: 14px;
+  font-size: 16px;
   box-sizing: border-box;
+  background-color: #f9f9f9;
 }
 
 /* Estilo dos títulos (labels) */
-#update-container .form-group label {
-  color: black; /* Define a cor dos títulos como preto */
-  font-weight: bold; /* Adiciona destaque aos títulos */
-  margin-bottom: 5px; /* Adiciona um pequeno espaçamento abaixo do título */
-  display: block; /* Garante que o label ocupe uma linha inteira */
+#update-container .form-group label,
+#delete-container .form-group label {
+  color: black;
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+  font-size: 14px;
 }
 
-/* Estilo do botão de atualização */
-#update-container .form-group button {
+/* Estilo dos botões */
+#update-container .form-group .btn-primary,
+#delete-container .form-group .btn-primary {
   background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  margin-right: 10px;
+}
+
+#update-container .form-group .btn-primary:hover,
+#delete-container .form-group .btn-primary:hover {
+  background-color: #0056b3;
+}
+
+#update-container .form-group .btn-danger,
+#delete-container .form-group .btn-danger {
+  background-color: #dc3545;
   color: white;
   border: none;
   padding: 12px;
@@ -65,22 +105,26 @@
   transition: background-color 0.3s ease;
 }
 
-#update-container .form-group button:hover {
-  background-color: #0056b3;
+#update-container .form-group .btn-danger:hover,
+#delete-container .form-group .btn-danger:hover {
+  background-color: #c82333;
 }
 
 /* Link para voltar */
-#update-container #voltar-link p {
+#update-container #voltar-link p,
+#delete-container #voltar-link p {
   text-align: center;
   margin-top: 20px;
 }
 
-#update-container #voltar-link a {
+#update-container #voltar-link a,
+#delete-container #voltar-link a {
   color: green;
   text-decoration: none;
   font-weight: bold;
 }
 
-#update-container #voltar-link a:hover {
+#update-container #voltar-link a:hover,
+#delete-container #voltar-link a:hover {
   text-decoration: underline;
 }
