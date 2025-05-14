@@ -3,13 +3,13 @@
     <div id="list-container">
       <div id="container">
         <div id="titulo">
-          <h1>Lista de Mídias</h1>
+          <h1>Lista de Filmes e Séries</h1>
         </div>
 
         <div class="list-form">
           <p>
             <router-link :to="{ name: 'create' }" class="btn btn-primary">
-              Cadastrar Nova Mídia
+              Cadastrar Novo Filmes ou Séries
             </router-link>
           </p>
 

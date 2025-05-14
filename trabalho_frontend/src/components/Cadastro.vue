@@ -4,7 +4,7 @@
       <form @submit.prevent="cadastrarUsuario">
         <div id="container">
           <div id="titulo">
-            <h1>Gestão de Filmes</h1>
+            <h1>Gestão de Filmes e Séries</h1>
           </div>
 
           <div class="cadastro-form">

@@ -92,7 +92,7 @@
               <div id="voltar-link">
                 <p>
                   <router-link :to="{ name: 'list' }">
-                    Voltar para a lista de mídias
+                    Voltar para a lista de Filmes e Séries
                   </router-link>
                 </p>
               </div>

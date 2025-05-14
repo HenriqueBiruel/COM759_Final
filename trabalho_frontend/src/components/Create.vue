@@ -4,11 +4,11 @@
       <form @submit.prevent="addMidia">
         <div id="container">
           <div id="titulo">
-            <h1>Gestão de Filmes</h1>
+            <h1>Gestão de Filmes e Séries</h1>
           </div>
 
           <div class="create-form">
-            <h2>Cadastrar Mídia</h2>
+            <h2>Cadastrar Filmes e Séries</h2>
 
             <div class="create-caixa">
               <div class="titulo">
@@ -72,7 +72,7 @@
               <div id="cadastro-link">
                 <p>
                   <router-link :to="{ name: 'list' }">
-                    Voltar para a lista de mídias
+                    Voltar para a lista de Filmes e Séries
                   </router-link>
                 </p>
               </div>
