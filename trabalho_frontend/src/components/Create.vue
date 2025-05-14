@@ -39,9 +39,10 @@
 
               <div class="ano">
                 <input
-                  type="number"
+                  type="text"
                   placeholder="Ano"
                   v-model="midia.ano"
+                  @input="applyYearMask"
                   required
                 />
               </div>
@@ -56,10 +57,10 @@
 
               <div class="avaliacao">
                 <input
-                  type="number"
-                  step="0.1"
-                  placeholder="Avaliação"
+                  type="text"
+                  placeholder="Avaliação (0 a 10)"
                   v-model="midia.avaliacao"
+                  @input="applyRatingMask"
                   required
                 />
               </div>
@@ -117,6 +118,25 @@ export default {
             alert((error.body && error.body.mensagem) || 'Erro ao cadastrar mídia');
           }
         );
+    },
+    applyYearMask(event) {
+      let value = event.target.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+      if (value.length > 4) value = value.slice(0, 4); // Limita a 4 dígitos
+      if (parseInt(value) > 2025) value = '2025'; // Limita o valor máximo a 2025
+      event.target.value = value;
+      this.midia.ano = value;
+    },
+    applyRatingMask(event) {
+      let value = event.target.value.replace(/[^0-9.]/g, ''); // Remove caracteres não numéricos e não ponto
+      if (value.includes('.')) {
+        const [integer, decimal] = value.split('.');
+        value = `${integer.slice(0, 1)}.${decimal.slice(0, 1)}`; // Limita a 1 casa decimal
+      } else {
+        value = value.slice(0, 2); // Limita o valor inteiro a 2 dígitos
+      }
+      if (parseFloat(value) > 10) value = '10'; // Limita o valor máximo a 10
+      event.target.value = value;
+      this.midia.avaliacao = value;
     }
   }
 };

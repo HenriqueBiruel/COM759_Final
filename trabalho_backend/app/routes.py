@@ -8,8 +8,8 @@ from werkzeug.security import generate_password_hash
 from werkzeug.security import check_password_hash
 
 @app.route('/')
-@app.route('/index')
-def index():
+@app.route('/list')
+def getlist():
     return flask.jsonify(json.loads(json_util.dumps(db.midias.find({}).sort("_id", 1))))
 
 @app.route('/create', methods=['POST'])

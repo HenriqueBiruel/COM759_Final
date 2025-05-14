@@ -1,0 +1,86 @@
+/* Contêiner principal da página de atualização */
+#update-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Contêiner interno específico para a página de atualização */
+#update-container #container {
+  background-color: white;
+  padding: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  width: 90%;
+  max-width: 600px; /* Limita a largura máxima */
+  overflow-x: auto; /* Adiciona barra de rolagem horizontal, se necessário */
+}
+
+/* Título principal */
+#update-container #titulo h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: black;
+}
+
+/* Formulário de atualização */
+#update-container .update-form .caixa {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Estilo dos campos de entrada */
+#update-container .form-group input,
+#update-container .form-group select,
+#update-container .form-group textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid black;
+  border-radius: 5px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+/* Estilo dos títulos (labels) */
+#update-container .form-group label {
+  color: black; /* Define a cor dos títulos como preto */
+  font-weight: bold; /* Adiciona destaque aos títulos */
+  margin-bottom: 5px; /* Adiciona um pequeno espaçamento abaixo do título */
+  display: block; /* Garante que o label ocupe uma linha inteira */
+}
+
+/* Estilo do botão de atualização */
+#update-container .form-group button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+#update-container .form-group button:hover {
+  background-color: #0056b3;
+}
+
+/* Link para voltar */
+#update-container #voltar-link p {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#update-container #voltar-link a {
+  color: green;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+#update-container #voltar-link a:hover {
+  text-decoration: underline;
+}

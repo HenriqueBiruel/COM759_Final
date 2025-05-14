@@ -1,0 +1,105 @@
+/* Contêiner principal da lista */
+#list-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Contêiner interno específico para a lista */
+#list-container #container {
+  background-color: white;
+  padding: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  width: 90%;
+  max-width: 1200px; /* Limita a largura máxima */
+  overflow-x: auto; /* Adiciona barra de rolagem horizontal, se necessário */
+}
+
+/* Título principal da lista */
+#list-container #titulo h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: black;
+}
+
+/* Botão de cadastro na lista */
+#list-container .list-form p {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#list-container .list-form .btn {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#list-container .list-form .btn:hover {
+  background-color: #0056b3;
+}
+
+/* Tabela específica para a lista */
+#list-container .table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+#list-container .table thead tr {
+  background-color: #f2f2f2;
+}
+
+#list-container .table th, #list-container .table td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+#list-container .table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+/* Botões de ação na lista */
+#list-container .btn-primary {
+  background-color: #007bff;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+#list-container .btn-primary:hover {
+  background-color: #0056b3;
+}
+
+#list-container .btn-danger {
+  background-color: #dc3545;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+#list-container .btn-danger:hover {
+  background-color: #c82333;
+}
+
+#list-container .btn-primary,
+#list-container .btn-danger {
+  margin-right: 15px;
+}
