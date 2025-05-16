@@ -119,20 +119,21 @@ def get_user(userId):
 
 @app.route('/updateuser', methods=['POST'])
 def update_user():
-    """Atualiza os dados de um usuário"""
     json_data = request.json
-    if json_data is not None and db.usuario.find_one({"_id": ObjectId(json_data["id"])}) is not None:
+    if json_data and db.usuario.find_one({"_id": ObjectId(json_data["id"])}):
         db.usuario.update_one(
             {'_id': ObjectId(json_data["id"])},
             {"$set": {
                 'username': json_data["username"],
                 'email': json_data["email"],
-                'password': generate_password_hash(json_data["password"])
+                'password': generate_password_hash(json_data["password"]),
+                'foto': json_data.get("foto", "")  # salva base64 da imagem
             }}
         )
         return jsonify(mensagem='Usuário atualizado com sucesso!')
     else:
         return jsonify(mensagem='Erro ao atualizar usuário.')
+
 
 @app.route('/deleteuser/<string:userId>')
 def delete_user(userId):

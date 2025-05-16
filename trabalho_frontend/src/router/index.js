@@ -7,6 +7,8 @@ import List from '../components/List.vue'
 import Delete from '../components/Delete.vue'
 import Cadastro from '@/components/Cadastro.vue'
 import Login from '@/components/Login.vue'
+import Profile from '@/components/Profile.vue'
+import EditarPerfil from '../components/EditarPerfil.vue'
 
 Vue.use(Router)
 Vue.use(VueResource)
@@ -43,6 +45,16 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: Login
+    },
+    {
+      path: '/perfil',
+      name: 'perfil',
+      component: Profile
+    },
+    {
+      path: '/editarperfil',
+      name: 'editarperfil',
+      component: EditarPerfil
     },
     {
       path: '/',
