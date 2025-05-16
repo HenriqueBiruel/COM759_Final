@@ -20,6 +20,16 @@
                 />
               </div>
 
+              <div class="email">
+                <input
+                  type="email"
+                  placeholder="Email"
+                  v-model="usuario.email"
+                  required
+                />
+              </div>
+
+
               <div class="senha">
                 <input
                   type="password"
@@ -63,6 +73,7 @@ export default {
     return {
       usuario: {
         username: '',
+        email: '',
         password: ''
       },
       repetirSenha: '' // Campo adicional para repetir a senha

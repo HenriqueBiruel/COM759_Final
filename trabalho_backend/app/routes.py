@@ -16,10 +16,21 @@ def getlist():
 def create():
     json_data = request.json
     if json_data is not None:
+        if not json_data.get("username"):
+            return jsonify(mensagem='Campo "username" obrigatório para vincular a mídia ao usuário.'), 400
+
         db.midias.insert_one(json_data)
         return jsonify(mensagem='Mídia criada com sucesso!')
     else:
         return jsonify(mensagem='Erro ao criar mídia.')
+
+@app.route('/list/<string:username>')
+def getlist_by_user(username):
+    """Lista mídias apenas do usuário especificado"""
+    midias = db.midias.find({"username": username})
+    return flask.jsonify(json.loads(json_util.dumps(midias)))
+
+
 
 @app.route("/getid/<string:midiaId>")
 def getid(midiaId):
@@ -57,8 +68,8 @@ def update():
 @app.route('/cadastro', methods=['POST'])
 def cadastro_user():
     data = request.get_json()
-    if not data.get('username') or not data.get('password'):
-        return jsonify({'mensagem': 'Usuário e senha são obrigatórios!'}), 400
+    if not data.get('username') or not data.get('password') or not data.get('email'):
+        return jsonify({'mensagem': 'Usuário, senha e email são obrigatórios!'}), 400
 
     # Verifica se o usuário já existe
     if db.usuario.find_one({'username': data['username']}):  # Usando a coleção 'usuario'
@@ -68,7 +79,8 @@ def cadastro_user():
     hashed_password = generate_password_hash(data['password'])
     db.usuario.insert_one({
         'username': data['username'],
-        'password': hashed_password
+        'password': hashed_password,
+        'email': data['email']
     })
 
     return jsonify({'mensagem': 'Usuário cadastrado com sucesso!'}), 201
@@ -79,12 +91,16 @@ def login_user():
     if not data.get('username') or not data.get('password'):
         return jsonify({'mensagem': 'Usuário e senha são obrigatórios!'}), 400
 
-    # Busca o usuário na coleção 'usuario'
     user = db.usuario.find_one({'username': data['username']})
     if not user or not check_password_hash(user['password'], data['password']):
         return jsonify({'mensagem': 'Credenciais inválidas!'}), 401
 
-    return jsonify({'mensagem': 'Login realizado com sucesso!'}), 200
+    # Retorna também o username para salvar no localStorage
+    return jsonify({
+        'mensagem': 'Login realizado com sucesso!',
+        'username': user['username']
+    }), 200
+
 
 @app.route('/listusers')
 def list_users():

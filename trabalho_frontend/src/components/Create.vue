@@ -100,17 +100,44 @@ export default {
       }
     };
   },
+  created() {
+    const username = localStorage.getItem('username');
+    if (!username) {
+      alert("Você precisa estar logado para cadastrar uma mídia.");
+      this.$router.push({ name: 'login' });
+    }
+  },
   methods: {
     addMidia() {
+      const username = localStorage.getItem('username');
+
+      if (!username) {
+        alert("Usuário não autenticado. Faça login novamente.");
+        this.$router.push({ name: 'login' });
+        return;
+      }
+
+      const midiaComUsuario = {
+        ...this.midia,
+        username: username
+      };
+
       this.$http
-        .post('http://localhost:5000/create', this.midia, {
+        .post('http://localhost:5000/create', midiaComUsuario, {
           headers: {
             'Content-Type': 'application/json'
           }
         })
         .then(
           (response) => {
-            this.midia = {};
+            this.midia = {
+              titulo: '',
+              tipo: '',
+              genero: '',
+              ano: '',
+              descricao: '',
+              avaliacao: ''
+            };
             alert(response.body.mensagem);
             this.$router.push({ name: 'list' });
           },
@@ -120,21 +147,21 @@ export default {
         );
     },
     applyYearMask(event) {
-      let value = event.target.value.replace(/\D/g, ''); // Remove caracteres não numéricos
-      if (value.length > 4) value = value.slice(0, 4); // Limita a 4 dígitos
-      if (parseInt(value) > 2025) value = '2025'; // Limita o valor máximo a 2025
+      let value = event.target.value.replace(/\D/g, '');
+      if (value.length > 4) value = value.slice(0, 4);
+      if (parseInt(value) > 2025) value = '2025';
       event.target.value = value;
       this.midia.ano = value;
     },
     applyRatingMask(event) {
-      let value = event.target.value.replace(/[^0-9.]/g, ''); // Remove caracteres não numéricos e não ponto
+      let value = event.target.value.replace(/[^0-9.]/g, '');
       if (value.includes('.')) {
         const [integer, decimal] = value.split('.');
-        value = `${integer.slice(0, 1)}.${decimal.slice(0, 1)}`; // Limita a 1 casa decimal
+        value = `${integer.slice(0, 1)}.${decimal.slice(0, 1)}`;
       } else {
-        value = value.slice(0, 2); // Limita o valor inteiro a 2 dígitos
+        value = value.slice(0, 2);
       }
-      if (parseFloat(value) > 10) value = '10'; // Limita o valor máximo a 10
+      if (parseFloat(value) > 10) value = '10';
       event.target.value = value;
       this.midia.avaliacao = value;
     }
