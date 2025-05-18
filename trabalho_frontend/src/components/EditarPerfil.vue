@@ -15,8 +15,20 @@
         </div>
 
         <div class="form-group">
+          <label>
+            <input type="checkbox" v-model="trocarSenha" />
+            Trocar senha
+          </label>
+        </div>
+
+        <div class="form-group" v-if="trocarSenha">
           <label>Nova Senha:</label>
-          <input type="password" v-model="usuario.password" required />
+          <input type="password" v-model="novaSenha" />
+        </div>
+
+        <div class="form-group" v-if="trocarSenha">
+          <label>Confirmar Nova Senha:</label>
+          <input type="password" v-model="confirmarSenha" />
         </div>
 
         <div class="form-group">
@@ -45,7 +57,10 @@ export default {
         email: '',
         password: '',
         foto: ''
-      }
+      },
+      novaSenha: '',
+      confirmarSenha: '',
+      trocarSenha: false
     };
   },
   created() {
@@ -78,6 +93,16 @@ export default {
       }
     },
     atualizarPerfil() {
+      if (this.trocarSenha) {
+        if (!this.novaSenha || this.novaSenha !== this.confirmarSenha) {
+          alert("As senhas não coincidem ou estão vazias.");
+          return;
+        }
+        this.usuario.password = this.novaSenha;
+      } else {
+        this.usuario.password = ''; // será ignorado pelo backend
+      }
+
       this.$http.post('http://localhost:5000/updateuser', this.usuario, {
         headers: { 'Content-Type': 'application/json' }
       }).then(

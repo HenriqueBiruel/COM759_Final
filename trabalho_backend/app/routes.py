@@ -127,7 +127,7 @@ def update_user():
                 'username': json_data["username"],
                 'email': json_data["email"],
                 'password': generate_password_hash(json_data["password"]),
-                'foto': json_data.get("foto", "")  # salva base64 da imagem
+                'foto': json_data.get("foto", "")
             }}
         )
         return jsonify(mensagem='Usuário atualizado com sucesso!')
