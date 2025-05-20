@@ -1,0 +1,4 @@
+trabalho_frontend/node_modules
+trabalho_backend/venv
+trabalho_backend/__pycache__
+.env
