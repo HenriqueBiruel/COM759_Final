@@ -1,14 +1,8 @@
-Claro! Aqui está uma versão melhorada e bem organizada do seu `README.md`, seguindo boas práticas de documentação para projetos Vue + Flask com MongoDB:
-
----
 
 ## 📚 COM759 - Sistema de Gestão de Mídias
 
 ### 🎓 FACAMP – Programação Avançada
 
-Este é um projeto desenvolvido para a disciplina de Programação Avançada (COM759), com o objetivo de criar uma aplicação web completa, integrando frontend em Vue.js, backend em Flask, e banco de dados NoSQL (MongoDB Atlas).
-
----
 
 ## ✅ Funcionalidades
 
