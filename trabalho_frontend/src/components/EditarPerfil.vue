@@ -31,11 +31,6 @@
           <input type="password" v-model="confirmarSenha" />
         </div>
 
-        <div class="form-group">
-          <label>Foto de perfil:</label>
-          <input type="file" accept="image/*" @change="processarImagem" />
-        </div>
-
         <button type="submit" class="btn btn-primary">Salvar Alterações</button>
       </form>
 
@@ -48,6 +43,7 @@
 
 <script>
 import '../assets/editarprofile.css';
+
 export default {
   data() {
     return {
@@ -55,40 +51,28 @@ export default {
         id: '',
         username: '',
         email: '',
-        password: '',
-        foto: ''
+        password: ''
       },
       novaSenha: '',
       confirmarSenha: '',
       trocarSenha: false
     };
   },
-created() {
-  const userId = localStorage.getItem('user_id');
-  if (!userId) {
-    alert("Você precisa estar logado.");
-    this.$router.push({ name: 'login' });
-    return;
-  }
+  created() {
+    const userId = localStorage.getItem('user_id');
+    if (!userId) {
+      alert("Você precisa estar logado.");
+      this.$router.push({ name: 'login' });
+      return;
+    }
 
-  this.$http.get(`http://localhost:5000/getuser/${userId}`).then((res) => {
-    this.usuario.id = res.body._id.$oid;
-    this.usuario.username = res.body.username;
-    this.usuario.email = res.body.email;
-    this.usuario.foto = res.body.foto || '';
-  });
-},
+    this.$http.get(`http://localhost:5000/getuser/${userId}`).then((res) => {
+      this.usuario.id = res.body._id.$oid;
+      this.usuario.username = res.body.username;
+      this.usuario.email = res.body.email;
+    });
+  },
   methods: {
-    processarImagem(event) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          this.usuario.foto = e.target.result;
-        };
-        reader.readAsDataURL(file);
-      }
-    },
     atualizarPerfil() {
       if (this.trocarSenha) {
         if (!this.novaSenha || this.novaSenha !== this.confirmarSenha) {

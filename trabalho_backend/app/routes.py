@@ -13,7 +13,6 @@ load_dotenv()
 
 TMDB_API_KEY = os.getenv("TMDB_API_KEY")
 
-
 # Rotas para mídias
 @app.route('/')
 @app.route('/list')
@@ -42,7 +41,7 @@ def getid(midiaId):
 @app.route("/delete/<string:midiaId>")
 def delete(midiaId):
     result = db.midias.delete_one({"_id": ObjectId(midiaId)})
-    if(result.deleted_count > 0):
+    if result.deleted_count > 0:
         return jsonify(mensagem='Mídia removida com sucesso!')
     else:
         return jsonify(mensagem='Erro ao remover mídia.')
@@ -50,7 +49,7 @@ def delete(midiaId):
 @app.route('/update', methods=['POST'])
 def update():
     json_data = request.json
-    if json_data is not None and db.midias.find_one({"_id": ObjectId(json_data["id"])}) is not None:
+    if json_data and db.midias.find_one({"_id": ObjectId(json_data["id"])}):
         db.midias.update_one(
             {'_id': ObjectId(json_data["id"])},
             {"$set": {
@@ -117,19 +116,29 @@ def get_user(userId):
 @app.route('/updateuser', methods=['POST'])
 def update_user():
     json_data = request.json
-    if json_data and db.usuario.find_one({"_id": ObjectId(json_data["id"])}):
-        db.usuario.update_one(
-            {'_id': ObjectId(json_data["id"])},
-            {"$set": {
-                'username': json_data["username"],
-                'email': json_data["email"],
-                'password': generate_password_hash(json_data["password"]),
-                'foto': json_data.get("foto", "")
-            }}
-        )
-        return jsonify(mensagem='Usuário atualizado com sucesso!')
-    else:
-        return jsonify(mensagem='Erro ao atualizar usuário.')
+    if not json_data:
+        return jsonify(mensagem='Dados inválidos'), 400
+
+    user = db.usuario.find_one({"_id": ObjectId(json_data["id"])})
+    if not user:
+        return jsonify(mensagem='Usuário não encontrado'), 404
+
+    update_fields = {
+        'username': json_data["username"],
+        'email': json_data["email"]
+    }
+
+    # Atualiza senha apenas se foi enviada (e não está vazia)
+    if json_data.get("password"):
+        update_fields['password'] = generate_password_hash(json_data["password"])
+
+    db.usuario.update_one(
+        {'_id': ObjectId(json_data["id"])},
+        {"$set": update_fields}
+    )
+
+    return jsonify(mensagem='Usuário atualizado com sucesso!')
+
 
 @app.route('/deleteuser/<string:userId>')
 def delete_user(userId):
