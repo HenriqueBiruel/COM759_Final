@@ -1,4 +1,7 @@
-trabalho_frontend/node_modules
-trabalho_backend/venv
-trabalho_backend/__pycache__
+venv/
+.venv/
+__pycache__/
 .env
+node_modules/
+dist/
+.cache/
