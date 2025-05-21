@@ -112,13 +112,14 @@ export default {
       bloquearCampos: false
     };
   },
-  created() {
-    const username = localStorage.getItem('username');
-    if (!username) {
-      alert("Você precisa estar logado para cadastrar uma mídia.");
-      this.$router.push({ name: 'login' });
-    }
-  },
+created() {
+  const userId = localStorage.getItem('user_id');
+  if (!userId) {
+    alert("Você precisa estar logado para cadastrar uma mídia.");
+    this.$router.push({ name: 'login' });
+  }
+},
+
   methods: {
     buscarSugestoes() {
       if (this.midia.titulo.length < 2) {
@@ -146,18 +147,13 @@ export default {
       this.sugestoes = [];
     },
     addMidia() {
-      const username = localStorage.getItem('username');
 
-      if (!username) {
-        alert("Usuário não autenticado. Faça login novamente.");
-        this.$router.push({ name: 'login' });
-        return;
-      }
-
+      const userId = localStorage.getItem('user_id');
       const midiaComUsuario = {
         ...this.midia,
-        username: username
+        user_id: userId
       };
+
 
       this.$http
         .post('http://localhost:5000/create', midiaComUsuario, {

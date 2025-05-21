@@ -82,19 +82,20 @@ export default {
       midias: []
     };
   },
-  created() {
-    const username = localStorage.getItem('username');
-    if (!username) {
-      alert("Usuário não identificado. Faça login novamente.");
-      this.$router.push({ name: 'login' });
-      return;
-    }
-    this.fetchMidiaData();
-  },
+created() {
+  const userId = localStorage.getItem('user_id');
+  if (!userId) {
+    alert("Usuário não identificado. Faça login novamente.");
+    this.$router.push({ name: 'login' });
+    return;
+  }
+  this.fetchMidiaData();
+},
+
   methods: {
     fetchMidiaData() {
-      const username = localStorage.getItem('username');
-      this.$http.get(`http://localhost:5000/list/${username}`).then(
+      const userId = localStorage.getItem('user_id');
+      this.$http.get(`http://localhost:5000/list/${userId}`).then(
         (response) => {
           this.midias = response.body;
         },
@@ -103,10 +104,12 @@ export default {
         }
       );
     },
-    logout() {
-      localStorage.removeItem("username");
-      this.$router.push({ name: 'login' });
-    }
+   logout() {
+  localStorage.removeItem("username");
+  localStorage.removeItem("user_id");
+  this.$router.push({ name: 'login' });
+}
+
   }
 };
 </script>

@@ -33,23 +33,27 @@ export default {
       }
     };
   },
-  created() {
-    const username = localStorage.getItem('username');
-    if (!username) {
-      alert("Você precisa estar logado.");
-      this.$router.push({ name: 'login' });
-      return;
-    }
+created() {
+  const userId = localStorage.getItem('user_id');
+  if (!userId) {
+    alert("Você precisa estar logado.");
+    this.$router.push({ name: 'login' });
+    return;
+  }
 
-    this.$http.get(`http://localhost:5000/listusers`).then((res) => {
-      const user = res.body.find(u => u.username === username);
-      if (user) {
-        this.usuario.username = user.username;
-        this.usuario.email = user.email;
-        this.usuario.foto = user.foto || '';
-      }
-    });
-  },
+  this.$http.get(`http://localhost:5000/getuser/${userId}`).then(
+    (res) => {
+      this.usuario.username = res.body.username;
+      this.usuario.email = res.body.email;
+      this.usuario.foto = res.body.foto || '';
+    },
+    () => {
+      alert("Erro ao carregar os dados do usuário.");
+      this.$router.push({ name: 'login' });
+    }
+  );
+},
+
   methods: {
     irParaEdicao() {
       this.$router.push({ name: 'editarperfil' });

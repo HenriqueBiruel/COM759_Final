@@ -63,7 +63,7 @@ export default {
             alert(response.body.mensagem);
 
             // Sempre salva o username no localStorage
-            localStorage.setItem('username', response.body.username);
+            localStorage.setItem('user_id', response.body._id);
 
             this.$router.push({ name: 'list' });
           },

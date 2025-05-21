@@ -23,22 +23,16 @@ def getlist():
 @app.route('/create', methods=['POST'])
 def create():
     json_data = request.json
-    if json_data is not None:
-        if not json_data.get("username"):
-            return jsonify(mensagem='Campo "username" obrigatório para vincular a mídia ao usuário.'), 400
+    if not json_data or not json_data.get("user_id"):
+        return jsonify(mensagem='Campo "user_id" obrigatório para vincular a mídia ao usuário.'), 400
 
-        db.midias.insert_one(json_data)
-        return jsonify(mensagem='Mídia criada com sucesso!')
-    else:
-        return jsonify(mensagem='Erro ao criar mídia.')
+    db.midias.insert_one(json_data)
+    return jsonify(mensagem='Mídia criada com sucesso!')
 
-@app.route('/list/<string:username>')
-def getlist_by_user(username):
-    """Lista mídias apenas do usuário especificado"""
-    midias = db.midias.find({"username": username})
-    return flask.jsonify(json.loads(json_util.dumps(midias)))
-
-
+@app.route('/list/<user_id>')
+def listar_midias(user_id):
+    midias = db.midias.find({"user_id": user_id})
+    return jsonify(json.loads(json_util.dumps(midias)))
 
 @app.route("/getid/<string:midiaId>")
 def getid(midiaId):
@@ -79,11 +73,9 @@ def cadastro_user():
     if not data.get('username') or not data.get('password') or not data.get('email'):
         return jsonify({'mensagem': 'Usuário, senha e email são obrigatórios!'}), 400
 
-    # Verifica se o usuário já existe
-    if db.usuario.find_one({'username': data['username']}):  # Usando a coleção 'usuario'
+    if db.usuario.find_one({'username': data['username']}):
         return jsonify({'mensagem': 'Usuário já existe!'}), 400
 
-    # Cria o usuário com senha criptografada
     hashed_password = generate_password_hash(data['password'])
     db.usuario.insert_one({
         'username': data['username'],
@@ -103,22 +95,19 @@ def login_user():
     if not user or not check_password_hash(user['password'], data['password']):
         return jsonify({'mensagem': 'Credenciais inválidas!'}), 401
 
-    # Retorna também o username para salvar no localStorage
     return jsonify({
         'mensagem': 'Login realizado com sucesso!',
-        'username': user['username']
+        'username': user['username'],
+        '_id': str(user['_id'])
     }), 200
-
 
 @app.route('/listusers')
 def list_users():
-    """Lista todos os usuários"""
     users = db.usuario.find({})
     return flask.jsonify(json.loads(json_util.dumps(users)))
 
 @app.route('/getuser/<string:userId>')
 def get_user(userId):
-    """Obtém um usuário pelo ID"""
     user = db.usuario.find_one({"_id": ObjectId(userId)})
     if user:
         return flask.jsonify(json.loads(json_util.dumps(user)))
@@ -142,10 +131,8 @@ def update_user():
     else:
         return jsonify(mensagem='Erro ao atualizar usuário.')
 
-
 @app.route('/deleteuser/<string:userId>')
 def delete_user(userId):
-    """Deleta um usuário pelo ID"""
     result = db.usuario.delete_one({"_id": ObjectId(userId)})
     if result.deleted_count > 0:
         return jsonify(mensagem='Usuário removido com sucesso!')
@@ -163,7 +150,6 @@ def carregar_generos():
         generos = resposta.json().get("genres", [])
         return {g["id"]: g["name"] for g in generos}
     return {}
-
 
 @app.route('/tmdb')
 def buscar_tmdb():
@@ -196,6 +182,5 @@ def buscar_tmdb():
                     "avaliacao": "",
                     "imagem": f"https://image.tmdb.org/t/p/w500{item.get('poster_path')}" if item.get("poster_path") else ""
                 })
-
 
     return jsonify(resultados)
