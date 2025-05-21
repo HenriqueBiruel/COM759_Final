@@ -5,6 +5,14 @@ from app import app
 from app import db
 from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
+import requests
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+TMDB_API_KEY = os.getenv("TMDB_API_KEY")
+
 
 # Rotas para mídias
 @app.route('/')
@@ -143,3 +151,51 @@ def delete_user(userId):
         return jsonify(mensagem='Usuário removido com sucesso!')
     else:
         return jsonify(mensagem='Erro ao remover usuário.')
+
+def carregar_generos():
+    url = "https://api.themoviedb.org/3/genre/movie/list"
+    params = {
+        "api_key": TMDB_API_KEY,
+        "language": "pt-BR"
+    }
+    resposta = requests.get(url, params=params)
+    if resposta.status_code == 200:
+        generos = resposta.json().get("genres", [])
+        return {g["id"]: g["name"] for g in generos}
+    return {}
+
+
+@app.route('/tmdb')
+def buscar_tmdb():
+    query = request.args.get('q', '')
+    if not query:
+        return jsonify([])
+
+    url = "https://api.themoviedb.org/3/search/multi"
+    params = {
+        "api_key": TMDB_API_KEY,
+        "query": query,
+        "language": "pt-BR"
+    }
+
+    response = requests.get(url, params=params)
+    generos_map = carregar_generos()
+    resultados = []
+
+    if response.status_code == 200:
+        for item in response.json().get("results", [])[:5]:
+            if item.get("media_type") in ["movie", "tv"]:
+                ids_generos = item.get("genre_ids", [])
+                nomes_generos = [generos_map.get(gid) for gid in ids_generos if generos_map.get(gid)]
+                resultados.append({
+                    "titulo": item.get("title") or item.get("name"),
+                    "tipo": "Filme" if item.get("media_type") == "movie" else "Série",
+                    "descricao": item.get("overview", ""),
+                    "ano": (item.get("release_date") or item.get("first_air_date") or "")[:4],
+                    "genero": ", ".join(nomes_generos),
+                    "avaliacao": "",
+                    "imagem": f"https://image.tmdb.org/t/p/w500{item.get('poster_path')}" if item.get("poster_path") else ""
+                })
+
+
+    return jsonify(resultados)

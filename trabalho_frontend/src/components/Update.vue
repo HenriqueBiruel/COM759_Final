@@ -4,7 +4,7 @@
       <form @submit.prevent="updateFilme">
         <div id="container">
           <div id="titulo">
-            <h1>Atualizar Midia</h1>
+            <h1>Atualizar Avaliação</h1>
           </div>
 
           <div class="update-form">
@@ -27,14 +27,13 @@
                   class="form-control"
                   v-model="filme.titulo"
                   id="filme_titulo"
-                  required
+                  readonly
                 />
               </div>
 
               <div class="form-group">
                 <label for="filme_tipo">Tipo</label>
-                <select v-model="filme.tipo" id="filme_tipo" required>
-                  <option value="" disabled>Selecione o tipo</option>
+                <select v-model="filme.tipo" id="filme_tipo" disabled>
                   <option value="Filme">Filme</option>
                   <option value="Série">Série</option>
                 </select>
@@ -47,20 +46,18 @@
                   class="form-control"
                   v-model="filme.genero"
                   id="filme_genero"
-                  required
+                  readonly
                 />
               </div>
 
               <div class="form-group">
                 <label for="filme_ano">Ano</label>
                 <input
-                  type="number"
+                  type="text"
                   class="form-control"
                   v-model="filme.ano"
                   id="filme_ano"
-                  min="1900"
-                  max="2025"
-                  required
+                  readonly
                 />
               </div>
 
@@ -84,7 +81,7 @@
                   class="form-control"
                   v-model="filme.descricao"
                   id="filme_descricao"
-                  required
+                  readonly
                 ></textarea>
               </div>
 
@@ -135,19 +132,12 @@ export default {
             this.$forceUpdate();
           },
           () => {
-            alert("Erro ao buscar dados do filme.");
+            alert("Erro ao buscar dados da mídia.");
           }
         );
     },
     updateFilme() {
-      // Validação
-      const ano = parseInt(this.filme.ano, 10);
       const avaliacao = parseFloat(this.filme.avaliacao);
-
-      if (isNaN(ano) || ano < 1900 || ano > 2025) {
-        alert("Ano deve ser um número entre 1900 e 2025.");
-        return;
-      }
 
       if (isNaN(avaliacao) || avaliacao < 0 || avaliacao > 10) {
         alert("Avaliação deve ser um número entre 0 e 10.");

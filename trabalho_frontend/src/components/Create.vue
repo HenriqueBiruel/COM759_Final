@@ -16,12 +16,19 @@
                   type="text"
                   placeholder="Título"
                   v-model="midia.titulo"
+                  @input="buscarSugestoes"
+                  :readonly="bloquearCampos"
                   required
                 />
+                <ul v-if="sugestoes.length" class="autocomplete">
+                  <li v-for="s in sugestoes" :key="s.titulo" @click="selecionarMidia(s)">
+                    {{ s.titulo }} ({{ s.tipo }})
+                  </li>
+                </ul>
               </div>
 
               <div class="tipo">
-                <select v-model="midia.tipo" required>
+                <select v-model="midia.tipo" :disabled="bloquearCampos" required>
                   <option value="" disabled selected>Selecione o tipo</option>
                   <option value="Filme">Filme</option>
                   <option value="Série">Série</option>
@@ -33,6 +40,7 @@
                   type="text"
                   placeholder="Gênero"
                   v-model="midia.genero"
+                  :readonly="bloquearCampos"
                   required
                 />
               </div>
@@ -42,7 +50,7 @@
                   type="text"
                   placeholder="Ano"
                   v-model="midia.ano"
-                  @input="applyYearMask"
+                  :readonly="bloquearCampos"
                   required
                 />
               </div>
@@ -51,6 +59,7 @@
                 <textarea
                   placeholder="Descrição"
                   v-model="midia.descricao"
+                  :readonly="bloquearCampos"
                   required
                 ></textarea>
               </div>
@@ -65,10 +74,10 @@
                 />
               </div>
 
-              <div class="entrar">
+              <div class="botoes">
                 <input type="submit" id="login-btn" value="Cadastrar" />
+                <input type="reset" id="btn-limpar" value="Limpar" @click="limparCampos" />
               </div>
-
               <div id="cadastro-link">
                 <p>
                   <router-link :to="{ name: 'list' }">
@@ -96,8 +105,11 @@ export default {
         genero: '',
         ano: '',
         descricao: '',
-        avaliacao: ''
-      }
+        avaliacao: '',
+        imagem: ''
+      },
+      sugestoes: [],
+      bloquearCampos: false
     };
   },
   created() {
@@ -108,6 +120,31 @@ export default {
     }
   },
   methods: {
+    buscarSugestoes() {
+      if (this.midia.titulo.length < 2) {
+        this.sugestoes = [];
+        return;
+      }
+
+      this.$http.get(`http://localhost:5000/tmdb?q=${this.midia.titulo}`).then(
+        (res) => {
+          this.sugestoes = res.body;
+        },
+        () => {
+          this.sugestoes = [];
+        }
+      );
+    },
+    selecionarMidia(sugestao) {
+      this.midia.titulo = sugestao.titulo;
+      this.midia.tipo = sugestao.tipo;
+      this.midia.genero = sugestao.genero;
+      this.midia.ano = sugestao.ano;
+      this.midia.descricao = sugestao.descricao;
+      this.midia.imagem = sugestao.imagem || '';
+      this.bloquearCampos = true;
+      this.sugestoes = [];
+    },
     addMidia() {
       const username = localStorage.getItem('username');
 
@@ -130,14 +167,7 @@ export default {
         })
         .then(
           (response) => {
-            this.midia = {
-              titulo: '',
-              tipo: '',
-              genero: '',
-              ano: '',
-              descricao: '',
-              avaliacao: ''
-            };
+            this.limparCampos();
             alert(response.body.mensagem);
             this.$router.push({ name: 'list' });
           },
@@ -145,13 +175,6 @@ export default {
             alert((error.body && error.body.mensagem) || 'Erro ao cadastrar mídia');
           }
         );
-    },
-    applyYearMask(event) {
-      let value = event.target.value.replace(/\D/g, '');
-      if (value.length > 4) value = value.slice(0, 4);
-      if (parseInt(value) > 2025) value = '2025';
-      event.target.value = value;
-      this.midia.ano = value;
     },
     applyRatingMask(event) {
       let value = event.target.value.replace(/[^0-9.]/g, '');
@@ -164,6 +187,19 @@ export default {
       if (parseFloat(value) > 10) value = '10';
       event.target.value = value;
       this.midia.avaliacao = value;
+    },
+    limparCampos() {
+      this.midia = {
+        titulo: '',
+        tipo: '',
+        genero: '',
+        ano: '',
+        descricao: '',
+        avaliacao: '',
+        imagem: ''
+      };
+      this.bloquearCampos = false;
+      this.sugestoes = [];
     }
   }
 };
