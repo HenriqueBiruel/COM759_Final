@@ -47,7 +47,7 @@ cd COM759_Final
 
 **Configurar o backend**
 
-cd trabalho_backend
+###cd trabalho_backend###
 
 python -m venv venv
 
