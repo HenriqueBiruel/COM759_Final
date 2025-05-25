@@ -1,86 +1,69 @@
-# 📚 COM759 - Sistema de Gestão de Mídias
+Sistema de Gestão de Mídias – COM759
 
-🎓 FACAMP – Programação Avançada
+1. **Cadastro e login de usuários**
 
----
+* Usuários podem se cadastrar com nome, email e senha.
+* As senhas são criptografadas no backend.
+* Após o login, um `user_id` é armazenado no `localStorage` para identificar o usuário nas ações futuras.
 
-## ✅ Funcionalidades
+2. **CRUD de mídias**
 
-- Cadastro de usuários com autenticação (login e senha)
-- Login com verificação de credenciais
-- Cada usuário vê apenas suas mídias cadastradas
-- Operações completas de CRUD em mídias (filmes e séries)
-- Edição e exclusão de mídias
-- Edição restrita (usuário só pode alterar a avaliação)
-- Autocomplete com dados reais da TMDb
-- Preenchimento automático de dados da mídia (título, tipo, gênero, ano, descrição)
-- Exibição de pôster da mídia na listagem (via URL da TMDb)
-- Página de perfil com visualização de dados
-- Edição de perfil (nome, email e senha)
-- Upload e exibição de imagem de perfil (base64)
-- Interface moderna com CSS customizado
-- Layout responsivo e intuitivo
+* Cada usuário vê apenas suas mídias.
+* É possível:
 
----
+  * Cadastrar uma nova mídia.
+  * Listar as mídias cadastradas.
+  * Editar apenas a avaliação da mídia.
+  * Excluir uma mídia.
 
-## 🧰 Tecnologias utilizadas
+3. **Integração com a API da TMDb**
 
-### 🔹 Frontend (Vue.js)
-- Vue 2 com Vue Router
-- Axios para requisições HTTP
-- HTML5 + CSS3 personalizados
+* Ao digitar um título, o sistema sugere automaticamente filmes ou séries reais.
+* Após selecionar, o sistema preenche automaticamente:
 
-### 🔹 Backend (Flask)
-- Flask + Flask-CORS
-- PyMongo (integração com MongoDB Atlas)
-- Werkzeug (criptografia de senha)
-- python-dotenv (variáveis de ambiente)
+  * Título
+  * Tipo
+  * Gênero
+  * Ano
+  * Descrição
+  * Imagem de pôster (usada apenas na listagem)
 
-### 🔹 Banco de Dados
-- MongoDB Atlas (NoSQL)
-- Collections: `usuario`, `midias`
+**Perfil de usuário**
+O usuário pode editar seus dados: nome, email e senha.
+A senha é atualizada somente se informada.
 
----
+**Controle de acesso**
 
-## 📂 Organização do projeto
+Cada usuário acessa apenas seus dados.
+O sistema faz checagens de autenticação via `localStorage`.
 
-```
-COM759_Final/
-├── backend/
-│   ├── app.py
-│   ├── requirements.txt
-│   ├── .env              # Contém TMDB_API_KEY (ignorado pelo Git)
-│   └── ... (outras rotas e helpers)
-├── frontend/
-│   ├── components/
-│   │   ├── Login.vue
-│   │   ├── Create.vue
-│   │   ├── List.vue
-│   │   ├── Update.vue
-│   │   ├── Profile.vue
-│   │   └── EditarPerfil.vue
-│   ├── assets/
-│   │   └── global.css
-│   │   └── list.css
-│   │   └── create.css
-│   ├── router/
-│   │   └── index.js
-│   └── ...
+
+Como rodar o projeto
+
+Clone o repositório
+
+git clone https://github.com/HenriqueBiruel/COM759_Final.git
+cd COM759_Final
+
+Configurar o backend
+
+cd trabalho_backend
+python -m venv venv
+venv\Scripts\activate
+
+pip install -r requirements.txt
+
+Crie o arquivo `.env` com a chave da TMDb:
+
+TMDB_API_KEY=sua_chave_aqui
+
+Configurar e rodar o frontend (Vue.js)
+cd ../trabalho_frontend
+npm install
+npm run serve
 ```
 
----
-
-## 📌 Observações
-
-- O projeto foi desenvolvido com base nos critérios exigidos pela disciplina.
-- As imagens de perfil são armazenadas como base64 diretamente no MongoDB.
-- Os pôsteres das mídias são exibidos diretamente via URL da API da TMDb.
-- A API Key da TMDb é protegida por `.env` e **não é enviada para o GitHub**.
-- O sistema possui proteção básica para rotas (verificação via `localStorage`).
-
----
-
-## 👨‍💻 Autor
+Autor
 
 **Henrique Biruel**
-🔗 [github.com/HenriqueBiruel](https://github.com/HenriqueBiruel)
+github.com/HenriqueBiruel (https://github.com/HenriqueBiruel)
