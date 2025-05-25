@@ -4,7 +4,7 @@ Sistema de Gestão de Mídias – COM759
 
 * Usuários podem se cadastrar com nome, email e senha.
 * As senhas são criptografadas no backend.
-* Após o login, um `user_id` é armazenado no `localStorage` para identificar o usuário nas ações futuras.
+* Após o login, um user_id é armazenado no localStorage para identificar o usuário nas ações futuras.
 
 2. **CRUD de mídias**
 
@@ -35,7 +35,7 @@ A senha é atualizada somente se informada.
 **Controle de acesso**
 
 Cada usuário acessa apenas seus dados.
-O sistema faz checagens de autenticação via `localStorage`.
+O sistema faz checagens de autenticação via localStorage.
 
 
 Como rodar o projeto
@@ -61,9 +61,6 @@ Configurar e rodar o frontend (Vue.js)
 cd ../trabalho_frontend
 npm install
 npm run serve
-```
 
-Autor
-
-**Henrique Biruel**
+Autor: Henrique Biruel
 github.com/HenriqueBiruel (https://github.com/HenriqueBiruel)
