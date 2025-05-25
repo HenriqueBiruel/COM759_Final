@@ -55,6 +55,7 @@ pip install -r requirements.txt
 
 Crie o arquivo `.env`, dentro desse arquivo adicione a chave da TMDb:
 (O arquivo deve ficar dessa maneira, troque sua_chave_aqui pelo sua chave)
+
 TMDB_API_KEY=sua_chave_aqui
 
 Configurar e rodar o frontend (Vue.js)
