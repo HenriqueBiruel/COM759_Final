@@ -58,7 +58,7 @@ export default new Router({
     },
     {
       path: '/',
-      redirect: '/login' // Redireciona a rota padrão para a tela de login
+      redirect: '/login' // Rota padrão tela de login
     }
   ]
 })

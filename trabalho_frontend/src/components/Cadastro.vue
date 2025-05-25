@@ -76,7 +76,7 @@ export default {
         email: '',
         password: ''
       },
-      repetirSenha: '' // Campo adicional para repetir a senha
+      repetirSenha: ''
     };
   },
   methods: {
@@ -87,7 +87,7 @@ export default {
         return;
       }
 
-      // Faz a requisição para o backend
+      // Requisição
       this.$http
         .post('http://localhost:5000/cadastro', this.usuario, {
           headers: {
