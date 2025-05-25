@@ -1,70 +1,77 @@
-Sistema de Gestão de Mídias – COM759
+# Sistema de Gestão de Mídias – COM759
 
-1. **Cadastro e login de usuários**
+## 1. Cadastro e Login de Usuários
 
-* Usuários podem se cadastrar com nome, email e senha.
-* As senhas são criptografadas no backend.
-* Após o login, um user_id é armazenado no localStorage para identificar o usuário nas ações futuras.
+* Usuários podem se cadastrar com **nome**, **email** e **senha**.
+* As **senhas são criptografadas** no backend.
+* Após o login, um `user_id` é armazenado no **localStorage** para identificar o usuário nas ações futuras.
 
-2. **CRUD de mídias**
+## 2. CRUD de Mídias
 
-* Cada usuário vê apenas suas mídias.
-* É possível:
+Cada usuário vê apenas suas próprias mídias. É possível:
 
-  * Cadastrar uma nova mídia.
-  * Listar as mídias cadastradas.
-  * Editar apenas a avaliação da mídia.
-  * Excluir uma mídia.
+* **Cadastrar** uma nova mídia.
+* **Listar** as mídias cadastradas.
+* **Editar** apenas a **avaliação** da mídia.
+* **Excluir** uma mídia.
 
-3. **Integração com a API da TMDb**
+## 3. Integração com a API da TMDb
 
 * Ao digitar um título, o sistema sugere automaticamente filmes ou séries reais.
-* Após selecionar, o sistema preenche automaticamente:
+* Após selecionar, o sistema preenche automaticamente os seguintes campos:
 
-  * Título
-  * Tipo
-  * Gênero
-  * Ano
-  * Descrição
-  * Imagem de pôster (usada apenas na listagem)
+  * **Título**
+  * **Tipo**
+  * **Gênero**
+  * **Ano**
+  * **Descrição**
+  * **Imagem de pôster** (usada apenas na listagem)
 
-**Perfil de usuário**
-O usuário pode editar seus dados: nome, email e senha.
-A senha é atualizada somente se informada.
+## 4. Perfil de Usuário
 
-**Controle de acesso**
+* O usuário pode editar seus dados: **nome**, **email** e **senha**.
+* A senha só é atualizada se uma nova for informada.
 
-Cada usuário acessa apenas seus dados.
-O sistema faz checagens de autenticação via localStorage.
+## 5. Controle de Acesso
 
+* Cada usuário acessa **apenas seus próprios dados**.
+* O sistema realiza checagens de autenticação via **localStorage**.
 
-**Como rodar o projeto**
+---
 
-**Clone o repositório**
+## Como Rodar o Projeto
 
+### 1. Clone o Repositório
+
+```bash
 git clone https://github.com/HenriqueBiruel/COM759_Final.git
 cd COM759_Final
+```
 
-**Configurar o backend**
+### 2. Configurar o Backend
 
-###cd trabalho_backend###
-
+```bash
+cd trabalho_backend
 python -m venv venv
-
 venv\Scripts\activate
-
 pip install -r requirements.txt
+```
 
-Crie o arquivo `.env`, dentro desse arquivo adicione a chave da TMDb:
+Crie o arquivo `.env` e adicione a chave da TMDb:
 
-(O arquivo deve ficar dessa maneira representada abaixo, substitua sua_chave_aqui pela sua chave)
-
+```env
 TMDB_API_KEY=sua_chave_aqui
+```
 
-Configurar e rodar o frontend (Vue.js)
+### 3. Configurar e Rodar o Frontend (Vue.js)
+
+```bash
 cd ../trabalho_frontend
 npm install
 npm run dev
+```
 
-Autor: Henrique Biruel
-github.com/HenriqueBiruel (https://github.com/HenriqueBiruel)
+---
+
+**Autor:** Henrique Biruel
+[github.com/HenriqueBiruel](https://github.com/HenriqueBiruel)
