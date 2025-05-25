@@ -1,3 +1,4 @@
+
 <template>
   <body>
     <div id="delete-container">
@@ -105,49 +106,49 @@
 </template>
 
 <script>
-import '../assets/update.css';
+import '../assets/update.css'
 
 export default {
-  data() {
+  data () {
     return {
       midia: {}
-    };
+    }
   },
-  created() {
-    this.getMidiaData();
+  created () {
+    this.getMidiaData()
   },
   methods: {
-    getMidiaData() {
+    getMidiaData () {
       this.$http
         .get(`http://localhost:5000/getid/${this.$route.params.id}`)
         .then(
           (response) => {
-            this.midia.id = this.$route.params.id;
-            this.midia.titulo = response.body.titulo;
-            this.midia.tipo = response.body.tipo;
-            this.midia.genero = response.body.genero;
-            this.midia.ano = response.body.ano;
-            this.midia.avaliacao = response.body.avaliacao;
-            this.midia.descricao = response.body.descricao;
-            this.$forceUpdate();
+            this.midia.id = this.$route.params.id
+            this.midia.titulo = response.body.titulo
+            this.midia.tipo = response.body.tipo
+            this.midia.genero = response.body.genero
+            this.midia.ano = response.body.ano
+            this.midia.avaliacao = response.body.avaliacao
+            this.midia.descricao = response.body.descricao
+            this.$forceUpdate()
           },
           () => {
-            alert("Erro ao buscar dados da mídia.");
+            alert('Erro ao buscar dados da mídia.')
           }
-        );
+        )
     },
-    deleteMidia() {
+    deleteMidia () {
       this.$http.get(`http://localhost:5000/delete/${this.midia.id}`).then(
         (response) => {
-          this.midia = {};
-          alert(response.body.mensagem);
-          this.$router.push("list");
+          this.midia = {}
+          alert(response.body.mensagem)
+          this.$router.push('list')
         },
         (response) => {
-          alert(response.body.mensagem);
+          alert(response.body.mensagem)
         }
-      );
+      )
     }
   }
-};
+}
 </script>

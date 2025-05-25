@@ -105,62 +105,62 @@
 </template>
 
 <script>
-import '../assets/update.css';
+import '../assets/update.css'
 
 export default {
-  data() {
+  data () {
     return {
       filme: {}
-    };
+    }
   },
-  created() {
-    this.getFilmeData();
+  created () {
+    this.getFilmeData()
   },
   methods: {
-    getFilmeData() {
+    getFilmeData () {
       this.$http
         .get(`http://localhost:5000/getid/${this.$route.params.id}`)
         .then(
           (response) => {
-            this.filme.id = this.$route.params.id;
-            this.filme.titulo = response.body.titulo;
-            this.filme.tipo = response.body.tipo;
-            this.filme.genero = response.body.genero;
-            this.filme.ano = response.body.ano;
-            this.filme.avaliacao = response.body.avaliacao;
-            this.filme.descricao = response.body.descricao;
-            this.$forceUpdate();
+            this.filme.id = this.$route.params.id
+            this.filme.titulo = response.body.titulo
+            this.filme.tipo = response.body.tipo
+            this.filme.genero = response.body.genero
+            this.filme.ano = response.body.ano
+            this.filme.avaliacao = response.body.avaliacao
+            this.filme.descricao = response.body.descricao
+            this.$forceUpdate()
           },
           () => {
-            alert("Erro ao buscar dados da mídia.");
+            alert('Erro ao buscar dados da mídia.')
           }
-        );
+        )
     },
-    updateFilme() {
-      const avaliacao = parseFloat(this.filme.avaliacao);
+    updateFilme () {
+      const avaliacao = parseFloat(this.filme.avaliacao)
 
       if (isNaN(avaliacao) || avaliacao < 0 || avaliacao > 10) {
-        alert("Avaliação deve ser um número entre 0 e 10.");
-        return;
+        alert('Avaliação deve ser um número entre 0 e 10.')
+        return
       }
 
       this.$http
-        .post("http://localhost:5000/update", this.filme, {
+        .post('http://localhost:5000/update', this.filme, {
           headers: {
-            "Content-Type": "application/json"
+            'Content-Type': 'application/json'
           }
         })
         .then(
           (response) => {
-            this.filme = {};
-            alert(response.body.mensagem);
-            this.$router.push("list");
+            this.filme = {}
+            alert(response.body.mensagem)
+            this.$router.push('list')
           },
           (response) => {
-            alert(response.body.mensagem);
+            alert(response.body.mensagem)
           }
-        );
+        )
     }
   }
-};
+}
 </script>

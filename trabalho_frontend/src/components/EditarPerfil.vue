@@ -1,3 +1,4 @@
+
 <template>
   <div id="editar-container">
     <div id="container">
@@ -42,10 +43,10 @@
 </template>
 
 <script>
-import '../assets/editarprofile.css';
+import '../assets/editarprofile.css'
 
 export default {
-  data() {
+  data () {
     return {
       usuario: {
         id: '',
@@ -56,46 +57,46 @@ export default {
       novaSenha: '',
       confirmarSenha: '',
       trocarSenha: false
-    };
+    }
   },
-  created() {
-    const userId = localStorage.getItem('user_id');
+  created () {
+    const userId = localStorage.getItem('user_id')
     if (!userId) {
-      alert("Você precisa estar logado.");
-      this.$router.push({ name: 'login' });
-      return;
+      alert('Você precisa estar logado.')
+      this.$router.push({ name: 'login' })
+      return
     }
 
     this.$http.get(`http://localhost:5000/getuser/${userId}`).then((res) => {
-      this.usuario.id = res.body._id.$oid;
-      this.usuario.username = res.body.username;
-      this.usuario.email = res.body.email;
-    });
+      this.usuario.id = res.body._id.$oid
+      this.usuario.username = res.body.username
+      this.usuario.email = res.body.email
+    })
   },
   methods: {
-    atualizarPerfil() {
+    atualizarPerfil () {
       if (this.trocarSenha) {
         if (!this.novaSenha || this.novaSenha !== this.confirmarSenha) {
-          alert("As senhas não coincidem ou estão vazias.");
-          return;
+          alert('As senhas não coincidem ou estão vazias.')
+          return
         }
-        this.usuario.password = this.novaSenha;
+        this.usuario.password = this.novaSenha
       } else {
-        this.usuario.password = ''; // será ignorado pelo backend
+        this.usuario.password = '' // será ignorado pelo backend
       }
 
       this.$http.post('http://localhost:5000/updateuser', this.usuario, {
         headers: { 'Content-Type': 'application/json' }
       }).then(
         (res) => {
-          alert(res.body.mensagem);
-          this.$router.push({ name: 'perfil' });
+          alert(res.body.mensagem)
+          this.$router.push({ name: 'perfil' })
         },
         (err) => {
-          alert((err.body && err.body.mensagem) || 'Erro ao atualizar perfil');
+          alert((err.body && err.body.mensagem) || 'Erro ao atualizar perfil')
         }
-      );
+      )
     }
   }
-};
+}
 </script>

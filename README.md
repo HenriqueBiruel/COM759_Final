@@ -48,7 +48,9 @@ cd COM759_Final
 **Configurar o backend**
 
 cd trabalho_backend
+
 python -m venv venv
+
 venv\Scripts\activate
 
 pip install -r requirements.txt
@@ -62,7 +64,7 @@ TMDB_API_KEY=sua_chave_aqui
 Configurar e rodar o frontend (Vue.js)
 cd ../trabalho_frontend
 npm install
-npm run serve
+npm run dev
 
 Autor: Henrique Biruel
 github.com/HenriqueBiruel (https://github.com/HenriqueBiruel)

@@ -1,3 +1,4 @@
+
 <template>
   <body>
     <div id="create-container">
@@ -94,10 +95,10 @@
 </template>
 
 <script>
-import '../assets/global.css';
+import '../assets/global.css'
 
 export default {
-  data() {
+  data () {
     return {
       midia: {
         titulo: '',
@@ -110,50 +111,48 @@ export default {
       },
       sugestoes: [],
       bloquearCampos: false
-    };
+    }
   },
-created() {
-  const userId = localStorage.getItem('user_id');
-  if (!userId) {
-    alert("Você precisa estar logado para cadastrar uma mídia.");
-    this.$router.push({ name: 'login' });
-  }
-},
+  created () {
+    const userId = localStorage.getItem('user_id')
+    if (!userId) {
+      alert('Você precisa estar logado para cadastrar uma mídia.')
+      this.$router.push({ name: 'login' })
+    }
+  },
 
   methods: {
-    buscarSugestoes() {
+    buscarSugestoes () {
       if (this.midia.titulo.length < 2) {
-        this.sugestoes = [];
-        return;
+        this.sugestoes = []
+        return
       }
 
       this.$http.get(`http://localhost:5000/tmdb?q=${this.midia.titulo}`).then(
         (res) => {
-          this.sugestoes = res.body;
+          this.sugestoes = res.body
         },
         () => {
-          this.sugestoes = [];
+          this.sugestoes = []
         }
-      );
+      )
     },
-    selecionarMidia(sugestao) {
-      this.midia.titulo = sugestao.titulo;
-      this.midia.tipo = sugestao.tipo;
-      this.midia.genero = sugestao.genero;
-      this.midia.ano = sugestao.ano;
-      this.midia.descricao = sugestao.descricao;
-      this.midia.imagem = sugestao.imagem || '';
-      this.bloquearCampos = true;
-      this.sugestoes = [];
+    selecionarMidia (sugestao) {
+      this.midia.titulo = sugestao.titulo
+      this.midia.tipo = sugestao.tipo
+      this.midia.genero = sugestao.genero
+      this.midia.ano = sugestao.ano
+      this.midia.descricao = sugestao.descricao
+      this.midia.imagem = sugestao.imagem || ''
+      this.bloquearCampos = true
+      this.sugestoes = []
     },
-    addMidia() {
-
-      const userId = localStorage.getItem('user_id');
+    addMidia () {
+      const userId = localStorage.getItem('user_id')
       const midiaComUsuario = {
         ...this.midia,
         user_id: userId
-      };
-
+      }
 
       this.$http
         .post('http://localhost:5000/create', midiaComUsuario, {
@@ -163,28 +162,28 @@ created() {
         })
         .then(
           (response) => {
-            this.limparCampos();
-            alert(response.body.mensagem);
-            this.$router.push({ name: 'list' });
+            this.limparCampos()
+            alert(response.body.mensagem)
+            this.$router.push({ name: 'list' })
           },
           (error) => {
-            alert((error.body && error.body.mensagem) || 'Erro ao cadastrar mídia');
+            alert((error.body && error.body.mensagem) || 'Erro ao cadastrar mídia')
           }
-        );
+        )
     },
-    applyRatingMask(event) {
-      let value = event.target.value.replace(/[^0-9.]/g, '');
+    applyRatingMask (event) {
+      let value = event.target.value.replace(/[^0-9.]/g, '')
       if (value.includes('.')) {
-        const [integer, decimal] = value.split('.');
-        value = `${integer.slice(0, 1)}.${decimal.slice(0, 1)}`;
+        const [integer, decimal] = value.split('.')
+        value = `${integer.slice(0, 1)}.${decimal.slice(0, 1)}`
       } else {
-        value = value.slice(0, 2);
+        value = value.slice(0, 2)
       }
-      if (parseFloat(value) > 10) value = '10';
-      event.target.value = value;
-      this.midia.avaliacao = value;
+      if (parseFloat(value) > 10) value = '10'
+      event.target.value = value
+      this.midia.avaliacao = value
     },
-    limparCampos() {
+    limparCampos () {
       this.midia = {
         titulo: '',
         tipo: '',
@@ -193,10 +192,10 @@ created() {
         descricao: '',
         avaliacao: '',
         imagem: ''
-      };
-      this.bloquearCampos = false;
-      this.sugestoes = [];
+      }
+      this.bloquearCampos = false
+      this.sugestoes = []
     }
   }
-};
+}
 </script>

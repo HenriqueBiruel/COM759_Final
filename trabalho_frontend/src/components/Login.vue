@@ -1,3 +1,4 @@
+
 <template>
   <body>
     <div id="login-container">
@@ -39,19 +40,19 @@
 </template>
 
 <script>
-import '../assets/global.css';
+import '../assets/global.css'
 
 export default {
-  data() {
+  data () {
     return {
       usuario: {
         username: '',
         password: ''
       }
-    };
+    }
   },
   methods: {
-    fazerLogin() {
+    fazerLogin () {
       this.$http
         .post('http://localhost:5000/login', this.usuario, {
           headers: {
@@ -60,18 +61,18 @@ export default {
         })
         .then(
           (response) => {
-            alert(response.body.mensagem);
+            alert(response.body.mensagem)
 
             // Sempre salva o username no localStorage
-            localStorage.setItem('user_id', response.body._id);
+            localStorage.setItem('user_id', response.body._id)
 
-            this.$router.push({ name: 'list' });
+            this.$router.push({ name: 'list' })
           },
           (error) => {
-            alert((error.body && error.body.mensagem) || 'Erro ao fazer login');
+            alert((error.body && error.body.mensagem) || 'Erro ao fazer login')
           }
-        );
+        )
     }
   }
-};
+}
 </script>

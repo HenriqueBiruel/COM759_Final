@@ -1,3 +1,4 @@
+
 <template>
   <div id="perfil-container">
     <div id="container">
@@ -18,39 +19,39 @@
 </template>
 
 <script>
-import '../assets/profile.css';
+import '../assets/profile.css'
 export default {
-  data() {
+  data () {
     return {
       usuario: {
         username: '',
         email: ''
       }
-    };
+    }
   },
-  created() {
-    const userId = localStorage.getItem('user_id');
+  created () {
+    const userId = localStorage.getItem('user_id')
     if (!userId) {
-      alert("Você precisa estar logado.");
-      this.$router.push({ name: 'login' });
-      return;
+      alert('Você precisa estar logado.')
+      this.$router.push({ name: 'login' })
+      return
     }
 
     this.$http.get(`http://localhost:5000/getuser/${userId}`).then(
       (res) => {
-        this.usuario.username = res.body.username;
-        this.usuario.email = res.body.email;
+        this.usuario.username = res.body.username
+        this.usuario.email = res.body.email
       },
       () => {
-        alert("Erro ao carregar os dados do usuário.");
-        this.$router.push({ name: 'login' });
+        alert('Erro ao carregar os dados do usuário.')
+        this.$router.push({ name: 'login' })
       }
-    );
+    )
   },
   methods: {
-    irParaEdicao() {
-      this.$router.push({ name: 'editarperfil' });
+    irParaEdicao () {
+      this.$router.push({ name: 'editarperfil' })
     }
   }
-};
+}
 </script>

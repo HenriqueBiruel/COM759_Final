@@ -1,3 +1,4 @@
+
 <template>
   <body>
     <div id="list-container">
@@ -74,42 +75,42 @@
 </template>
 
 <script>
-import '../assets/list.css';
+import '../assets/list.css'
 
 export default {
-  data() {
+  data () {
     return {
       midias: []
-    };
+    }
   },
-created() {
-  const userId = localStorage.getItem('user_id');
-  if (!userId) {
-    alert("Usuário não identificado. Faça login novamente.");
-    this.$router.push({ name: 'login' });
-    return;
-  }
-  this.fetchMidiaData();
-},
+  created () {
+    const userId = localStorage.getItem('user_id')
+    if (!userId) {
+      alert('Usuário não identificado. Faça login novamente.')
+      this.$router.push({ name: 'login' })
+      return
+    }
+    this.fetchMidiaData()
+  },
 
   methods: {
-    fetchMidiaData() {
-      const userId = localStorage.getItem('user_id');
+    fetchMidiaData () {
+      const userId = localStorage.getItem('user_id')
       this.$http.get(`http://localhost:5000/list/${userId}`).then(
         (response) => {
-          this.midias = response.body;
+          this.midias = response.body
         },
         (response) => {
-          console.error("Erro ao buscar dados das mídias:", response);
+          console.error('Erro ao buscar dados das mídias:', response)
         }
-      );
+      )
     },
-   logout() {
-  localStorage.removeItem("username");
-  localStorage.removeItem("user_id");
-  this.$router.push({ name: 'login' });
-}
+    logout () {
+      localStorage.removeItem('username')
+      localStorage.removeItem('user_id')
+      this.$router.push({ name: 'login' })
+    }
 
   }
-};
+}
 </script>
