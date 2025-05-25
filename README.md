@@ -38,14 +38,14 @@ Cada usuário acessa apenas seus dados.
 O sistema faz checagens de autenticação via localStorage.
 
 
-Como rodar o projeto
+**Como rodar o projeto**
 
-Clone o repositório
+**Clone o repositório**
 
 git clone https://github.com/HenriqueBiruel/COM759_Final.git
 cd COM759_Final
 
-Configurar o backend
+**Configurar o backend**
 
 cd trabalho_backend
 python -m venv venv
@@ -53,8 +53,8 @@ venv\Scripts\activate
 
 pip install -r requirements.txt
 
-Crie o arquivo `.env` com a chave da TMDb:
-
+Crie o arquivo `.env`, dentro desse arquivo adicione a chave da TMDb:
+(O arquivo deve ficar dessa maneira, troque sua_chave_aqui pelo sua chave)
 TMDB_API_KEY=sua_chave_aqui
 
 Configurar e rodar o frontend (Vue.js)
