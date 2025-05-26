@@ -55,6 +55,7 @@ cd trabalho_backend
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
+flask run
 ```
 
 Crie o arquivo `.env` e adicione a chave da TMDb:
